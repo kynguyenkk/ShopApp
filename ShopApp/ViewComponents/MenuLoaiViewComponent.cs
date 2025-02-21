@@ -16,7 +16,7 @@ namespace ShopApp.ViewComponents
                 MaLoai = lo.MaLoai,
                 TenLoai = lo.TenLoai,
                 SoLuong = lo.HangHoas.Count
-            });
+            }).OrderBy(p => p.TenLoai);
             return View(items); // Default cshtml
             //return View("MenuLoai2", items); // Custom cshtml
         }
