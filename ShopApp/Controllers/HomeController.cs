@@ -18,6 +18,12 @@ public class HomeController : Controller
         return View();
     }
 
+    [Route("/404")]
+    public IActionResult PageNotFound()
+    {
+        return View();
+    }
+
     public IActionResult Privacy()
     {
         return View();
