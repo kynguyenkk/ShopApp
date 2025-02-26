@@ -1,5 +1,6 @@
 using ShopApp.Data;
 using Microsoft.EntityFrameworkCore;
+using ShopApp.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,8 @@ builder.Services.AddSession(
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
