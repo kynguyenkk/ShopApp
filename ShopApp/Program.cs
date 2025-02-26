@@ -1,6 +1,7 @@
 using ShopApp.Data;
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Helpers;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,14 @@ builder.Services.AddSession(
     options.Cookie.IsEssential = true;
 });
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/KhachHang/DangNhap";
+        options.AccessDeniedPath = "/AccessDenied";
+    });
+
+
 
 var app = builder.Build();
 
@@ -32,7 +41,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSession();
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
