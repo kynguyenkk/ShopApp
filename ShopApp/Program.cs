@@ -2,6 +2,7 @@ using ShopApp.Data;
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Helpers;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using ShopApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,8 @@ builder.Services.AddSession(
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+builder.Services.AddSingleton<IVnPayService, VnPayService>();
+
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
