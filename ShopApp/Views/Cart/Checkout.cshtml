@@ -17,12 +17,11 @@
 <div class="container-fluid py-5">
     <div class="container py-5">
         <h1 class="mb-4">Billing details</h1>
-        <form action="#">
+        <form asp-action="Checkout" asp-controller="Cart">
             <div class="row g-5">
-                <form asp-action="Checkout" asp-controller="Cart">
                     <div class="col-md-12 col-lg-6 col-xl-7">
                         <div class="form-check my-3">
-                            <input type="checkbox" name="GiongKhachHang" class="form-check-input" id="GiongKhachHang" value="0">
+                            <input type="checkbox" name="GiongKhachHang" class="form-check-input" id="GiongKhachHang" value="false">
                             <label class="form-check-label" for="GiongKhachHang">Giống thông tin khách hàng</label>
                         </div>
                         <div class="form-item delivery-info">
@@ -45,9 +44,7 @@
                             <input type="submit" name="payment" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary" value="Đặt hàng (COD)">
                             <input type="submit" name="payment" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary" value="Thanh Toán VnPay">
                         </div>
-                    </div>
-                    
-                </form>
+                    </div>                 
                
                 <div class="col-md-12 col-lg-6 col-xl-5">
                     <div class="table-responsive">
@@ -174,7 +171,7 @@
     <script>
         $(document).ready(function () {
             $('#GiongKhachHang').change(function () {
-                if ($(this).prop("Checked")){
+                if ($(this).prop("checked")){
                     $(this).val(true);
                     $(".delivery-info").addClass("d-none");
                 }

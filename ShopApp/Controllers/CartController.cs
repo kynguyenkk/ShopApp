@@ -3,8 +3,6 @@ using ShopApp.Data;
 using ShopApp.ViewModels;
 using ShopApp.Helpers;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Reflection.PortableExecutable;
 using ShopApp.Services;
 
 namespace ShopApp.Controllers
@@ -85,7 +83,7 @@ namespace ShopApp.Controllers
 
             if (ModelState.IsValid) {
 
-                if (payment == "Thanh toán VNPay")
+                if (payment == "Thanh Toán VnPay")
                 {
                     var vnPayModel = new VnPaymentRequestModel
                     {
@@ -122,10 +120,10 @@ namespace ShopApp.Controllers
                     db.Database.CommitTransaction();
                     db.Add(hoadon);
                     db.SaveChanges();
-                    var cthd = new List<ChiTietHd>();
+                    var cthds = new List<ChiTietHd>();
                     foreach(var item in Cart)
                     {
-                        cthd.Add(new ChiTietHd
+                        cthds.Add(new ChiTietHd
                         {
                             MaHd = hoadon.MaHd,
                             MaHh = item.MaHh,
@@ -134,8 +132,9 @@ namespace ShopApp.Controllers
                             GiamGia = 0
                         });
                     }
-                    db.AddRange(cthd);
+                    db.AddRange(cthds);
                     db.SaveChanges();
+                    db.Database.CommitTransaction();
                     HttpContext.Session.Set<List<CartItem>>(MySetting.CART_KEY, new List<CartItem>());
                     return View("Success");
                 }
@@ -151,7 +150,7 @@ namespace ShopApp.Controllers
         [Authorize]
         public IActionResult PaymentSuccess()
         {
-            return View();
+            return View("Success");
         }
         [Authorize]
         public IActionResult PaymentFail() { 
@@ -162,14 +161,14 @@ namespace ShopApp.Controllers
         public IActionResult PaymentCallBack()
         {
             var response = _vnPayService.PaymentExecute(Request.Query);
-            if (response==null||response.VnPayResponseCode!="00")
+            if (response==null || response.VnPayResponseCode != "00")
             {
                 TempData["Message"] = $"Thanh toán thất bại: {response.VnPayResponseCode}";
                 return RedirectToAction("PaymentFail");
             }
             //Lưu đơn hàng vô database
-            TempData["Message"] = $"Thanh toán thành công";
-            return RedirectToAction("PaymentFail");
+            TempData["Message"] = $"Thanh toán VNPay thành công";
+            return RedirectToAction("PaymentSuccess");
         }
     }
 }
